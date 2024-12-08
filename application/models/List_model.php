@@ -303,6 +303,7 @@ class List_model extends CI_Model
             ->where('tbpd.deleted', '0');
     
             if ($user_role !='superadmin' && $user_role !='accounts' ) {
+                 if($filter_user_id){
                 $user_id = $filter_user_id['0'];
                 $user_id = explode(',', $user_id);
                 if (!empty($user_id)) {
@@ -311,6 +312,7 @@ class List_model extends CI_Model
                     $this->db->where_in('tbp.name_ref_by', $merged_user_ids);
                 } 
             } 
+        }
     
         // Apply filter for property_name
         if ($filter_nagar != '') {
@@ -355,6 +357,7 @@ class List_model extends CI_Model
                 ->where('tbpd.deleted', '0');
 
         if ($user_role !='superadmin' && $user_role !='accounts') {
+             if($filter_user_id){
             $user_id = $filter_user_id['0'];
             $user_id = explode(',', $user_id);
             if (!empty($user_id)) {
@@ -363,6 +366,7 @@ class List_model extends CI_Model
                 $this->db->where_in('tbp.name_ref_by', $merged_user_ids);
             } 
         } 
+    }
         if ($filter_nagar != '') {
             $this->db->where('tbp.property_name', $filter_nagar);
         }
@@ -412,6 +416,7 @@ class List_model extends CI_Model
             ->where('tbp.deleted', '0');
 
     if ($user_role !='superadmin' && $user_role !='accounts') {
+        if($filter_user_id){
         $user_id = $filter_user_id['0'];
         $user_id = explode(',', $user_id);
         if (!empty($user_id)) {
@@ -420,6 +425,7 @@ class List_model extends CI_Model
             $this->db->where_in('tbp.name_ref_by', $merged_user_ids);
         } 
     } 
+}
     if ($filter_nagar != '') {
         $this->db->where('tbp.property_name', $filter_nagar);
     }
@@ -467,6 +473,7 @@ public function get_property_for_reg_dashboard($start, $length, $sort, $search_v
     ->where('trp.deleted', '0');
 
     if ($user_role != 'superadmin' && $user_role != 'accounts') {
+        if($filter_user_id){
         $user_id = $filter_user_id['0'];
         $user_id = explode(',', $user_id);
         if (!empty($user_id)) {
@@ -475,6 +482,7 @@ public function get_property_for_reg_dashboard($start, $length, $sort, $search_v
             $this->db->where_in('trp.name_ref_by', $merged_user_ids);
         } 
     } 
+}
     if ($filter_nagar != '') {
         $this->db->where('trp.property_name', $filter_nagar);
     }
@@ -526,6 +534,7 @@ public function total_property_booked_dashboard($search_value, $table, $uniq_id,
         ->where('tbp.deleted', '0')
         ->where('tbpd.deleted', '0');
 
+        if($filter_user_id){
         if ($user_role !='superadmin' && $user_role !='accounts' ) {
             $user_id = $filter_user_id['0'];
             $user_id = explode(',', $user_id);
@@ -535,6 +544,7 @@ public function total_property_booked_dashboard($search_value, $table, $uniq_id,
                 $this->db->where_in('tbp.name_ref_by', $merged_user_ids);
             } 
         } 
+    }
 
     // Apply filter for property_name
     if ($filter_nagar != '') {

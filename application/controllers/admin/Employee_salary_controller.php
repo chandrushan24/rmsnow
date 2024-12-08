@@ -92,25 +92,26 @@ class Employee_salary_controller extends MY_Controller {
         $emp_id = $this->input->get('emp_id');
         $current_day = date('d');
        
-        if ($current_day > 10) {
-            $start_date = date('Y-m-10');
-            $end_date = date('Y-m-10', strtotime('first day of next month'));
-        } else {
-            $start_date = date('Y-m-10', strtotime('first day of last month'));
-            $end_date = date('Y-m-10');
-        }
+        // if ($current_day > 10) {
+        //     $start_date = date('Y-m-10');
+        //     $end_date = date('Y-m-10', strtotime('first day of next month'));
+        // } else {
+        //     $start_date = date('Y-m-10', strtotime('first day of last month'));
+        //     $end_date = date('Y-m-10');
+        // }
+
+        $start_date = $this->input->get('salary_start_date');
+        $end_date = $this->input->get('salary_end_date');
         
         $this->db->select('A.*');
         $this->db->from('tbl_employee_salary as A'); 
         $this->db->where('A.deleted', 0);
         $this->db->where('A.employee_name',$emp_id);
-        $this->db->where('created_date >=', $start_date);
-        $this->db->where('created_date <=', $end_date);
+        $this->db->where('DATE(salary_duration_start) >=', $start_date);
+        $this->db->where('DATE(salary_duration_end) <=', $end_date);
         $query_ = $this->db->get();
         $check_this_month_sal = $query_->result_array();
-
-        // echo $this->db->last_query();
-
+         
        if(!empty($check_this_month_sal)){
          $data =array(
             'status' => 0,
@@ -125,10 +126,10 @@ class Employee_salary_controller extends MY_Controller {
         $this->db->where('employee_id', $emp_id);
         $this->db->where('deleted', '0');
         $this->db->where('received_flag', '0');
-        // $this->db->where('created_at >=', $start_date);
-        // $this->db->where('created_at <=', $end_date);
+        $this->db->where('created_at >=', $start_date);
+        $this->db->where('created_at <=', $end_date);
         $query = $this->db->get();
-
+     
         $data = $query->row()->amount;
         $data_selected_rows = $query->row()->emp_sal_cal_id;
 
@@ -177,8 +178,12 @@ class Employee_salary_controller extends MY_Controller {
 
     public function get_offer_reg(){
         $emp_id = $this->input->get('emp_id');
-        $start_date = date('Y-m-10');
-        $end_date = date('Y-m-10', strtotime('first day of next month'));
+        // $start_date = date('Y-m-10');
+        // $end_date = date('Y-m-10', strtotime('first day of next month'));
+
+        $start_date = $this->input->get('salary_start_date');
+        $end_date = $this->input->get('salary_end_date');
+
         $this->db->select('COUNT(B.reg_plot_detail_id) as total_count,A.property_name');
         $this->db->from('tbl_reg_plot as A');
         $this->db->join('tbl_reg_plot_details as B','B.reg_plot_header_id = A.reg_plot_id','left');

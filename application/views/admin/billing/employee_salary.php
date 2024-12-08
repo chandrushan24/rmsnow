@@ -16,6 +16,33 @@
   <hr class="my-4" />
   <form id="myForm" class="card-body" method="post" enctype="multipart/form-data" onSubmit="return false">
     <div class="row g-6">
+
+       <div class="col-md-4">
+          <div class="input-group input-group-merge">
+            <div class="form-floating form-floating-outline">
+              <input type="date" id="multicol-salary_duration_start" class="form-control" name="salary_duration_start"  value="<?php if(isset($get_prop)){echo $get_prop['salary_duration_start'];}?>" placeholder="Enter Employee ID"/>
+              <label for="multicol-salary_duration_start">Salary Duration Start</label>
+            </div>
+          </div>
+      </div>
+
+      <div class="col-md-4">
+          <div class="input-group input-group-merge">
+            <div class="form-floating form-floating-outline">
+              <input type="date" id="multicol-salary_duration_end" class="form-control" name="salary_duration_end"  value="<?php if(isset($get_prop)){echo $get_prop['salary_duration_end'];}?>" placeholder="Enter Employee ID"/>
+              <label for="multicol-salary_duration_end">Salary Duration End</label>
+            </div>
+          </div>
+      </div>
+
+       <div class="col-md-4">
+          <div class="input-group input-group-merge">
+            <div class="form-floating form-floating-outline">
+              <input type="text" id="multicol-employee_id_input" class="form-control" name="employee_id_input"  value="<?php if(isset($get_prop)){echo $get_prop['employee_id'];}?>" placeholder="Enter Employee ID"/>
+              <label for="multicol-employee_id_input">Employee ID</label>
+            </div>
+          </div>
+      </div>
             
       <div class="col-md-4">
         <div class="form-floating form-floating-outline">
@@ -125,6 +152,8 @@
 
          $('#employee_name_input').on('change',function() {
           const emp_id =$(this).val();
+          const salary_start_date =$("#multicol-salary_duration_start").val();
+          const salary_end_date =$("#multicol-salary_duration_end").val();
           //get offer
            get_offer(emp_id);
             // get advance
@@ -137,7 +166,7 @@
           success: function(response) {
             $("[name='employee_id_input']").val(response.employee_id);
                     $.ajax({
-                      url: '<?=base_url()?>admin/Employee_salary_controller/get_sal_adv_data?emp_id='+emp_id,
+                      url: '<?=base_url()?>admin/Employee_salary_controller/get_sal_adv_data?emp_id='+emp_id+'&salary_start_date='+salary_start_date+'&salary_end_date='+salary_end_date,
                       type: 'GET',
                       processData: false,  
                       contentType: false, 
@@ -145,7 +174,7 @@
                         success: function(data) {
                           $("#multicol-advance_amount_input").val(data);
                           $.ajax({
-                          url: '<?=base_url()?>admin/Employee_salary_controller/get_sal_net_amount_data?emp_id='+emp_id,
+                          url: '<?=base_url()?>admin/Employee_salary_controller/get_sal_net_amount_data?emp_id='+emp_id+'&salary_start_date='+salary_start_date+'&salary_end_date='+salary_end_date,
                           type: 'GET',
                           processData: false,  
                           contentType: false, 
@@ -234,8 +263,10 @@
  
     function get_offer(emp_id){
       if(emp_id){
+          const salary_start_date =$("#multicol-salary_duration_start").val();
+          const salary_end_date =$("#multicol-salary_duration_end").val();
         $.ajax({
-            url: '<?=base_url()?>admin/Employee_salary_controller/get_offer_reg?emp_id='+emp_id,
+            url: '<?=base_url()?>admin/Employee_salary_controller/get_offer_reg?emp_id='+emp_id+'&salary_start_date='+salary_start_date+'&salary_end_date='+salary_end_date,
             type: 'GET',
             processData: false,  
             contentType: false, 

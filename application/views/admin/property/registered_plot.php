@@ -325,7 +325,7 @@ body.modal-open .content {
                       $selected = 'selected';
                     }
                     ?>
-                    <option value="<?php echo $val['staff_info_id'];?>" data-id="<?php echo $val['phone_number_2'];?>" <?php echo $selected;?> ><?php echo $val['employee_name'];?> / <?php echo $val['role_name'].' - '.$val['phone_number_1'];?></option>
+                    <option value="<?php echo $val['staff_info_id'];?>" data-id="<?php echo $val['phone_number_1'];?>" <?php echo $selected;?> ><?php echo $val['employee_name'];?> / <?php echo $val['role_name'].' - '.$val['phone_number_1'];?></option>
                     <?php 
                   }
                 }

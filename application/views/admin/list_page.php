@@ -412,6 +412,7 @@ else{
         <th>Employee Name</th>
         <th>Advance Amount</th>
         <th>Salary amount</th>
+        <th>Offer Won</th>
         <th>Action</th>
     </tr>
 </thead>

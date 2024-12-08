@@ -593,6 +593,7 @@ class List_controller extends MY_Controller {
             $employee,
             $val->advance_amount,
             $val->balance_amount,
+            $val->offer_won,
             '<a class="btn btn-success btn-sm" data-id="'.$val->emp_salary_id.'" href="'.base_url().'Edit_'.$page_title.'/'.$val->emp_salary_id.'" ><i class="ri-edit-box-fill"></i></a>'.' '.
             '<button type="button" class="btn btn-danger btn-sm confirm-color" onclick="delete_record('.$val->emp_salary_id.')"><i class="ri-delete-bin-fill"></i></button>',
         );
@@ -778,7 +779,6 @@ $columns = [
     'customer_id',
     's_no',
     'total_plot_price',
-    '(LENGTH(plot_no) - LENGTH(REPLACE(plot_no, ",", "")) + 1) AS plot_count',
     'name_ref_by'
 ];
 
@@ -789,7 +789,6 @@ $this->db->select(implode(', ', $columns))
 
 $query = $this->db->get();
 $check_register = $query->row_array();
-
 
             if ($check_register) {
 
@@ -832,9 +831,11 @@ $check_register = $query->row_array();
                     if (strpos($plot_no, ',') !== false) {
                     // If it's a comma-separated string, convert it to an array
                     $plot_ids = explode(',', $plot_no);
+                    $plot_count = count($plot_ids); 
                     } else {
                     // If it's a single value, make it an array with one element
                     $plot_ids = [$plot_no];
+                    $plot_count = 1; 
                     }
 
                     // Use where_in for dynamic handling of one or more plot_detail_id values
@@ -845,8 +846,7 @@ $check_register = $query->row_array();
 
 
                     //less the sold status to -minus after deleting
-
-                    $plot_details_calculate_amount = $check_register['plot_count'] * $check_register['total_plot_price'];
+                    $plot_details_calculate_amount = $plot_count * $check_register['total_plot_price'];
                  //flow chart logic 
                  $get_old_refer_by = $this->common_model->get_single_date('tbl_reg_plot','reg_plot_id', $id);
                 
@@ -857,7 +857,7 @@ $check_register = $query->row_array();
                  if(!empty($get_old_staff)){
                      foreach($get_old_staff as $old_datas){
                          $update_staff_info = array(
-                            'total_plot_sold' => abs(abs($old_datas['total_plot_sold']) - $check_register['plot_count']),
+                            'total_plot_sold' => abs(abs($old_datas['total_plot_sold']) - $plot_count),
                           );
                           
                           $this->db->where('staff_info_id', $old_datas['staff_info_id'])->update('tbl_staff_info',$update_staff_info);
@@ -923,7 +923,7 @@ $check_register = $query->row_array();
             $table = 'tbl_booked_plot';
             $uniq_id = 'booked_plot_id';
             
-            $this->db->select('booked_plot_id, property_name, plot_no, customer_id');
+            $this->db->select('booked_plot_id, property_name, plot_no, customer_id, s_no');
             $this->db->where($uniq_id, $id);
             $this->db->from($table);
             $query = $this->db->get();
@@ -940,6 +940,19 @@ $check_register = $query->row_array();
                     if($booking_query->num_rows() > 0)
                     {
                         $response = array('error' => "Already Plot Registered.");
+                        echo json_encode($response);
+                        return false;
+                    }
+
+                     // check for billing_reciept by tbl_reg_plot->s_no
+                    $this->db->select('bill_id, sno_customer_id');
+                    $this->db->where(['sno_customer_id'=> $check_book['s_no'], 'deleted' =>0 ]);
+                    $this->db->from('tbl_billing_receipt');
+                    $receipt_query = $this->db->get();
+
+                    if($receipt_query->num_rows() > 0)
+                    {
+                        $response = array('error' => "Already Billed.");
                         echo json_encode($response);
                         return false;
                     }
