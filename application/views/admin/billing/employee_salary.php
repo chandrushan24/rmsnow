@@ -34,15 +34,6 @@
             </div>
           </div>
       </div>
-
-       <div class="col-md-4">
-          <div class="input-group input-group-merge">
-            <div class="form-floating form-floating-outline">
-              <input type="text" id="multicol-employee_id_input" class="form-control" name="employee_id_input"  value="<?php if(isset($get_prop)){echo $get_prop['employee_id'];}?>" placeholder="Enter Employee ID"/>
-              <label for="multicol-employee_id_input">Employee ID</label>
-            </div>
-          </div>
-      </div>
             
       <div class="col-md-4">
         <div class="form-floating form-floating-outline">
@@ -70,6 +61,14 @@
         </div>
       </div>
 
+      <div class="col-md-4">
+          <div class="input-group input-group-merge">
+            <div class="form-floating form-floating-outline">
+              <input type="text" id="multicol-employee_id_input" class="form-control" name="employee_id_input"  value="<?php if(isset($get_prop)){echo $get_prop['employee_id'];}?>" placeholder="Enter Employee ID"/>
+              <label for="multicol-employee_id_input">Employee ID</label>
+            </div>
+          </div>
+      </div>
 
       <div class="col-md-4">
           <div class="input-group input-group-merge">

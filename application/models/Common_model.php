@@ -511,7 +511,6 @@ public function get_Booked_plot_count($id) {
     $this->db->where('trp.deleted', 0);
     $this->db->where('trpd.deleted', 0);
     if ($user_role !='superadmin' && $user_role !='accounts') {
-         if($filter_user_id){
             $user_id = $filter_user_id['0'];
             $user_id = explode(',', $user_id);
             if (!empty($user_id)) {
@@ -519,7 +518,6 @@ public function get_Booked_plot_count($id) {
                 $merged_user_ids = array_filter($merged_user_ids); 
                 $this->db->where_in('trp.name_ref_by', $merged_user_ids);
             }
-        }
         }
     $this->db->group_by('trpd.plot_no');
     // $this->db->group_by('trpd.booked_plot_detail_id');

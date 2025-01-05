@@ -507,7 +507,7 @@ body.modal-open_ .content {
           <div style="padding: 5px;">
               <button type="button" id="uploadCsv" class="btn btn-md btn-primary waves-effect waves-light">Upload CSV</button>
           </div>
-        </div>
+        </div><br><br><br><br>
 <div class="row g-6">
 <div class="scroll-table">
 <div class="table-responsive">

@@ -623,6 +623,7 @@
 			<th class="unit">Employee Name</th>
 			<th class="unit">Advance Amount</th>
 			<th class="unit">Salary Amount</th>
+			<th class="unit">Offer Won</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -637,8 +638,9 @@
 			<td class="no">'.$i.'</td>
 			<td class="desc">'. date('d/m/Y',strtotime($val["created_date"])).'</td>
 			<td class="unit">'.$emloyee_name["employee_name"].'</td>
-			<td class="unit">'.$val["advance_amount"].'</td>
-			<td class="unit">'.$val["balance_amount"].'</td>
+			<td class="unit">'.number_format($val["advance_amount"],2).'</td>
+			<td class="unit">'.number_format($val["balance_amount"],2).'</td>
+			<td class="unit">'.$val["offer_won"].'</td>
 		 </tr>';
 		$i++;
 		$total += is_numeric($val["balance_amount"]) ? $val["balance_amount"] :0 ;
@@ -651,6 +653,7 @@
 		<td class="unit"></td>
 		<td class="unit"></td>
 		<td class="unit"></td>
+		<td class="unit"></td>
 	</tr>';
 	$total = 0.00 ;
 	}?>
@@ -658,7 +661,8 @@
 	<tfoot>
 					<tr>
 					<th colspan="4" class="text-end">TOTAL : </th>
-					<th>₹ <?= $total ?></th>
+					<th>₹ <?= number_format($total,2) ?></th>
+					<th></th>
 					</tr>
 				</tfoot>
 </table>

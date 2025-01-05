@@ -1306,6 +1306,7 @@ $check_register = $query->row_array();
             B.employee_name AS Employee_Name,
             A.advance_amount AS Advance_Amount,
             A.balance_amount AS Salary_Amount,
+            A.offer_won AS Offer_Won,
          ');
             $this->db->from('tbl_employee_salary as A');
             $this->db->join('tbl_staff_info as B', 'A.employee_name = B.staff_info_id', 'left');
